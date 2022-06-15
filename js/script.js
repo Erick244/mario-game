@@ -93,7 +93,7 @@ function marioIsHit(pipe, mario) {
 
             setTimeout(() => {
                 css(menu, 'display', 'flex');
-            }, 1500)
+            }, 500)
         } else if (pipeLeft == 0) {
             points++;
             scorer(points);
