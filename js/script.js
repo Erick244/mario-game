@@ -4,6 +4,8 @@ const menu = document.querySelector('.menu');
 
 const css = (elem, prop, valor) => elem.style[prop] = valor;
 
+const classConfig = (elem, classe, cfg) => cfg ? elem.classList.add(classe) : elem.classList.remove(classe);
+
 const play = document.querySelector('.play').onclick = () => {
     css(menu, 'display', 'none');
     resetGame();
@@ -11,24 +13,24 @@ const play = document.querySelector('.play').onclick = () => {
 }
 
 function jump() {
-    mario.classList.add('jump');
+    classConfig(mario, 'jump', true);
 
     setTimeout(() => {
-        mario.classList.remove('jump');
+        classConfig(mario, 'jump', false);
     }, 500)
 }
 
 function startGame() {
 
-    mario.classList.add('mario-animation');
+    classConfig(mario, 'mario-animation', true);
 
     setTimeout(() => {
-        pipe.classList.add('pipe-animation');
-        mario.classList.remove('mario-animation');
+        classConfig(pipe, 'pipe-animation', true);
         css(pipe, 'display', 'block')
 
-        addEventListener('keydown', jump);
+        classConfig(mario, 'mario-animation', false);
 
+        addEventListener('keydown', jump);
     }, 3000)
 
     marioIsHit(pipe, mario);
@@ -70,8 +72,6 @@ const scorer = (points) => {
     scorer.innerHTML = points;
 }
 
-let marioIsLife = true;
-
 function marioIsHit(pipe, mario) {
     const loop = setInterval(() => {
         const pipeLeft = getPositions(pipe).left;
@@ -85,8 +85,7 @@ function marioIsHit(pipe, mario) {
             css(mario, 'bottom', `${marioBottom}px`);
             css(mario, 'marginLeft', '23px');
 
-
-            pipe.classList.remove('pipe-animation');
+            classConfig(pipe, 'pipe-animation', false);
             css(pipe, 'left', `${pipeLeft}px`);
 
             removeEventListener('keydown', jump);
@@ -94,6 +93,7 @@ function marioIsHit(pipe, mario) {
             setTimeout(() => {
                 css(menu, 'display', 'flex');
             }, 500)
+            
         } else if (pipeLeft == 0) {
             points++;
             scorer(points);
@@ -104,6 +104,7 @@ function marioIsHit(pipe, mario) {
 function resetGame() {
     points = 0;
     scorer(points);
+
     mario.src = 'images/mario.gif';
     css(mario, 'width', '120px');
     css(mario, 'bottom', '0px');
