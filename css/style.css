@@ -53,7 +53,7 @@ body {
 }
 
 .clouds-animation {
-    animation: clouds-animation 10s infinite linear;
+    animation: clouds-animation 15s infinite linear;
 }
 
 @keyframes clouds-animation {

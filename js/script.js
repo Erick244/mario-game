@@ -20,17 +20,46 @@ function jump() {
     }, 500)
 }
 
+let points = 0;
+let record = points;
+
+const scorer = (points) => {
+    const recordMenu = document.querySelector('.record > span');
+
+    if (points > record) {
+        record = points;
+    }
+
+    recordMenu.innerHTML = record;
+
+    const scorerMenu = document.querySelector('.scorer_menu > span');
+    scorerMenu.innerHTML = points;
+    const scorer = document.querySelector('.scorer');
+    scorer.innerHTML = points;
+}
+
+let mariosLife = true;
+
 function startGame() {
 
     classConfig(mario, 'mario-animation', true);
-
+    
     setTimeout(() => {
         classConfig(pipe, 'pipe-animation', true);
         css(pipe, 'display', 'block')
-
+        
         classConfig(mario, 'mario-animation', false);
 
         addEventListener('keydown', jump);
+        
+        if (mariosLife) {
+            const poitsLoop = setInterval(() => {
+                points++;
+                scorer(points);
+                if (!mariosLife) clearInterval(poitsLoop);
+            }, 1500)
+        }
+        
     }, 3000)
 
     marioIsHit(pipe, mario);
@@ -54,23 +83,7 @@ function getPositions(elem) {
     }
 }
 
-let points = 0;
-let record = points;
 
-const scorer = (points) => {
-    const recordMenu = document.querySelector('.record > span');
-
-    if (points > record) {
-        record = points;
-    }
-
-    recordMenu.innerHTML = record;
-
-    const scorerMenu = document.querySelector('.scorer_menu > span');
-    scorerMenu.innerHTML = points;
-    const scorer = document.querySelector('.scorer');
-    scorer.innerHTML = points;
-}
 
 function marioIsHit(pipe, mario) {
     const loop = setInterval(() => {
@@ -93,10 +106,10 @@ function marioIsHit(pipe, mario) {
             setTimeout(() => {
                 css(menu, 'display', 'flex');
             }, 500)
-            
-        } else if (pipeLeft == 0) {
-            points++;
-            scorer(points);
+
+            mariosLife = false;
+
+            points--
         }
     }, 13)
 }
@@ -109,6 +122,7 @@ function resetGame() {
     css(mario, 'width', '120px');
     css(mario, 'bottom', '0px');
     css(mario, 'marginLeft', '0px');
+    mariosLife = true;
 
     css(pipe, 'left', '110%');
 }
