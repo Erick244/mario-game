@@ -38,7 +38,7 @@ const scorer = (points) => {
     scorer.innerHTML = points;
 }
 
-let mariosLife = true;
+let marioLife = true;
 
 function startGame() {
 
@@ -52,11 +52,11 @@ function startGame() {
 
         addEventListener('keydown', jump);
         
-        if (mariosLife) {
-            const poitsLoop = setInterval(() => {
+        if (marioLife) {
+            const pointsLoop = setInterval(() => {
                 points++;
                 scorer(points);
-                if (!mariosLife) clearInterval(poitsLoop);
+                if (!marioLife) clearInterval(pointsLoop);
             }, 1500)
         }
         
@@ -107,7 +107,7 @@ function marioIsHit(pipe, mario) {
                 css(menu, 'display', 'flex');
             }, 500)
 
-            mariosLife = false;
+            marioLife = false;
 
             points--
         }
@@ -122,7 +122,7 @@ function resetGame() {
     css(mario, 'width', '120px');
     css(mario, 'bottom', '0px');
     css(mario, 'marginLeft', '0px');
-    mariosLife = true;
+    marioLife = true;
 
     css(pipe, 'left', '110%');
 }
